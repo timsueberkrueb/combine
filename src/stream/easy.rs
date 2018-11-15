@@ -19,6 +19,8 @@
 //!        fn parser[I]()(I) -> String
 //!         where [
 //!             I: Stream<Item=char, Error = easy::ParseError<I>>,
+//!             I::Item: PartialEq,
+//!             I::Range: PartialEq,
 //!             // If we want to use the error type explicitly we need to help rustc infer
 //!             // `StreamError` to `easy::Error` (rust-lang/rust#24159)
 //!             I::Error: ParseError<
