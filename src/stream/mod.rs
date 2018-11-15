@@ -101,7 +101,7 @@ pub trait StreamOnce {
     /// The type of a range of items yielded from this stream.
     /// Types which do not a have a way of yielding ranges of items should just use the
     /// `Self::Item` for this type.
-    type Range: Clone + PartialEq;
+    type Range: Clone;
 
     /// Type which represents the position in a stream.
     /// `Ord` is required to allow parsers to determine which of two positions are further ahead.
@@ -587,7 +587,7 @@ impl<'a> StreamOnce for &'a str {
 
 impl<'a, T> Positioned for &'a [T]
 where
-    T: Clone + PartialEq,
+    T: Clone,
 {
     #[inline(always)]
     fn position(&self) -> Self::Position {
@@ -597,7 +597,7 @@ where
 
 impl<'a, T> StreamOnce for &'a [T]
 where
-    T: Clone + PartialEq,
+    T: Clone,
 {
     type Item = T;
     type Range = &'a [T];

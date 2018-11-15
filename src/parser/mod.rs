@@ -143,6 +143,7 @@ pub trait Parser {
     where
         I: Stream,
         I::Item: PartialEq,
+        I::Range: PartialEq,
         ::easy::Stream<I>: StreamOnce<
             Item = I::Item,
             Range = I::Range,

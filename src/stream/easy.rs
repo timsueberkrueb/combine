@@ -750,6 +750,7 @@ impl<S> StreamOnce for Stream<S>
 where
     S: StreamOnce + Positioned,
     S::Item: PartialEq,
+    S::Range: PartialEq,
 {
     type Item = S::Item;
     type Range = S::Range;
@@ -770,6 +771,7 @@ impl<S> RangeStreamOnce for Stream<S>
 where
     S: RangeStream,
     S::Item: PartialEq,
+    S::Range: PartialEq,
 {
     #[inline]
     fn uncons_range(&mut self, size: usize) -> Result<Self::Range, StreamErrorFor<Self>> {
@@ -802,6 +804,7 @@ impl<S> Positioned for Stream<S>
 where
     S: StreamOnce + Positioned,
     S::Item: PartialEq,
+    S::Range: PartialEq,
 {
     fn position(&self) -> S::Position {
         self.0.position()
@@ -812,6 +815,7 @@ impl<S> FullRangeStream for Stream<S>
 where
     S: FullRangeStream,
     S::Item: PartialEq,
+    S::Range: PartialEq,
 {
     fn range(&self) -> Self::Range {
         self.0.range()
