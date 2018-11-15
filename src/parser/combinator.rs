@@ -314,6 +314,7 @@ pub struct AndThen<P, F>(P, F);
 impl<P, F, O, E, I> Parser for AndThen<P, F>
 where
     I: Stream,
+    I::Item: PartialEq,
     P: Parser<Input = I>,
     F: FnMut(P::Output) -> Result<O, E>,
     E: Into<<I::Error as ParseError<I::Item, I::Range, I::Position>>::StreamError>,
@@ -1098,6 +1099,7 @@ type PartialState = P::PartialState;
 pub fn from_str[O, P](parser: P)(P::Input) -> O
 where [
     P: Parser,
+    <<P as Parser>::Input as StreamOnce>::Item: PartialEq,
     P::Output: StrLike,
     O: str::FromStr,
     O::Err: fmt::Display,

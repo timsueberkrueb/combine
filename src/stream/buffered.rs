@@ -26,6 +26,7 @@ use stream::{Positioned, Resetable, StreamErrorFor, StreamOnce};
 pub struct BufferedStream<I>
 where
     I: StreamOnce + Positioned,
+    I::Item: PartialEq,
 {
     offset: usize,
     iter: I,
@@ -36,6 +37,7 @@ where
 impl<I> Resetable for BufferedStream<I>
 where
     I: Positioned,
+    I::Item: PartialEq,
 {
     type Checkpoint = usize;
     fn checkpoint(&self) -> Self::Checkpoint {
@@ -50,7 +52,7 @@ impl<I> BufferedStream<I>
 where
     I: StreamOnce + Positioned,
     I::Position: Clone,
-    I::Item: Clone,
+    I::Item: Clone + PartialEq,
 {
     /// Constructs a new `BufferedStream` from a `StreamOnce` instance with a `lookahead`
     /// number of elements that can be stored in the buffer.
@@ -67,6 +69,7 @@ where
 impl<I> Positioned for BufferedStream<I>
 where
     I: StreamOnce + Positioned,
+    I::Item: PartialEq,
 {
     #[inline(always)]
     fn position(&self) -> Self::Position {

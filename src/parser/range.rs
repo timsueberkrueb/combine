@@ -293,6 +293,7 @@ pub struct TakeWhile<I, F>(F, PhantomData<fn(I) -> I>);
 impl<I, F> Parser for TakeWhile<I, F>
 where
     I: RangeStream,
+    I::Item: PartialEq,
     I::Range: ::stream::Range,
     F: FnMut(I::Item) -> bool,
 {
@@ -353,6 +354,7 @@ pub struct TakeWhile1<I, F>(F, PhantomData<fn(I) -> I>);
 impl<I, F> Parser for TakeWhile1<I, F>
 where
     I: RangeStream,
+    I::Item: PartialEq,
     I::Range: ::stream::Range,
     F: FnMut(I::Item) -> bool,
 {

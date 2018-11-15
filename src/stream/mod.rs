@@ -96,7 +96,7 @@ pub type StreamErrorFor<I> = <<I as StreamOnce>::Error as ParseError<
 /// `StreamOnce` represents a sequence of items that can be extracted one by one.
 pub trait StreamOnce {
     /// The type of items which is yielded from this stream.
-    type Item: Clone + PartialEq;
+    type Item: Clone;
 
     /// The type of a range of items yielded from this stream.
     /// Types which do not a have a way of yielding ranges of items should just use the
@@ -252,6 +252,7 @@ where
 pub fn input_at_eof<I>(input: &mut I) -> bool
 where
     I: ?Sized + Stream,
+    I::Item: PartialEq,
 {
     let before = input.checkpoint();
     let x = input.uncons() == Err(StreamError::end_of_input());
@@ -266,6 +267,7 @@ where
     F: FnMut(I::Item) -> bool,
     I: ?Sized + RangeStream,
     I::Range: Range,
+    I::Item: PartialEq,
 {
     match input.uncons_while(predicate) {
         Err(err) => wrap_stream_error(input, err),
@@ -297,6 +299,7 @@ pub fn uncons_while1<I, F>(input: &mut I, predicate: F) -> ConsumedResult<I::Ran
 where
     F: FnMut(I::Item) -> bool,
     I: ?Sized + RangeStream,
+    I::Item: PartialEq,
 {
     match input.uncons_while1(predicate) {
         ConsumedOk(x) => {

@@ -142,6 +142,7 @@ pub trait Parser {
     fn easy_parse<I>(&mut self, input: I) -> Result<(Self::Output, I), ::easy::ParseError<I>>
     where
         I: Stream,
+        I::Item: PartialEq,
         ::easy::Stream<I>: StreamOnce<
             Item = I::Item,
             Range = I::Range,
